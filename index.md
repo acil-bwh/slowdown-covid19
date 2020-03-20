@@ -1,7 +1,7 @@
 ## Slow-down COVID-19
 
 ### Goal
-Detect potential signs of COVID-19 for epidemiological control of populations using chest X-ray (CXR) as a screening tools
+Detect potential signs of COVID-19 for epidemiological control using chest X-ray (CXR) as a screening tool.
 
 ### Background
 The definitive test for SARS-CoV-2 is the real-time reverse transcriptase-polymerase chain reaction (RT-PCR) test. However, radiographic findings have been reported as a potential tool for screening. The typical radiographic findings that have been reported are:
