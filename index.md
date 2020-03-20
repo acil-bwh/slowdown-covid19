@@ -1,37 +1,19 @@
-## Welcome to GitHub Pages
+## Slow-down COVID-19
 
-You can use the [editor on GitHub](https://github.com/acil-bwh/slowdown-covid19/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+### Goal
+Detect potential signs of COVID-19 for epidemiological control of populations using chest X-ray (CXR) as a screening tools
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Background
+COVID-19 has reported to have a radiological appearance with ground glass opacities (based on CT terminology). 
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/acil-bwh/slowdown-covid19/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+### Approach
+We are developing a free stand-alone client-based web tool for early detection of mild pneumonia from CXR images to help prevent the epidemic. 
 
 ### Support or Contact
+This tool has been developed by the team of researchers at the [Applied Chest Imaging Laboratory](acil.med.harvard.edu). 
+Code and models are open-source.
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+Contact information: [Raul San Jose Estepar](rsanjose@bwh.harvard.edu)
+
+### Disclamer
+This is not meant to be a diagnostic tool. This tool has not been certified by any agency and is not considered a medical device.
