@@ -13,7 +13,7 @@ The definitive test for SARS-CoV-2 is the real-time reverse transcriptase-polyme
 
 More information can be found [here](https://radiopaedia.org/articles/coronavirus-disease-2019-covid-19-1?lang=us)
 
-### App
+### "Covictory" App
 We are developing a free stand-alone client-based web tool for early detection of mild pneumonia from CXR images to help prevent the epidemic. 
 
 The application is under development and the team is making great progress. Stay tuned!!. We hope to have a demo site early next week.
