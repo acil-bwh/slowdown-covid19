@@ -31,7 +31,7 @@ Contact information: [Raul San Jose Estepar](rsanjose@bwh.harvard.edu)
 This is not meant to be a diagnostic tool. This tool has not been certified by any agency and is not considered a medical device.
 
 ### Data sharing resources
-https://www.eurorad.org/submit
-https://github.com/ieee8023/covid-chestxray-dataset
-https://www.sirm.org/category/senza-categoria/covid-19/
-https://radiopaedia.org/articles/coronavirus-disease-2019-covid-19-1?lang=us
+- https://www.eurorad.org/submit
+- https://github.com/ieee8023/covid-chestxray-dataset
+- https://www.sirm.org/category/senza-categoria/covid-19/
+- https://radiopaedia.org/articles/coronavirus-disease-2019-covid-19-1?lang=us
