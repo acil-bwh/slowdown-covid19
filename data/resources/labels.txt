@@ -1,0 +1,3 @@
+excluded
+mild
+moderate-severe
