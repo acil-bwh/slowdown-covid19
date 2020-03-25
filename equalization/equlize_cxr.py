@@ -7,8 +7,11 @@ from matplotlib import image
 from os import listdir
 from os.path import isfile, join
 
-def equalize(img, clip_limit=0.1, med_filt=5, flag_draw=False):
-    img_norm = img.astype('float32') / img.max()                                    # Format adaptation
+def equalize(img, clip_limit=0.01, med_filt=5, flag_draw=False):
+    if img.dtype is np.dtype(np.float32):
+        img_norm = img / img.max()                                    # Format adaptation
+    else:
+        img_norm = img.astype('float32') / np.iinfo(img.dtype).max                      # Format adaptation
     img_clahe = exposure.equalize_adapthist(img_norm, clip_limit=clip_limit)        # CLAHE
     img_clahe_median = filters.median(img_clahe,np.ones((5,5))).astype('float32')   # Median Filter
 
@@ -24,7 +27,7 @@ def equalize(img, clip_limit=0.1, med_filt=5, flag_draw=False):
 
         plt.figure(50)
         plt.clf()
-        plt.hist(img.flatten(), 256, alpha=0.2, density=True, label='original')
+        plt.hist(img_norm.flatten(), 256, alpha=0.2, density=True, label='original')
         plt.hist(img_clahe.flatten(), 256, alpha=0.2, density=True, label='clahe')
         plt.hist(img_out.flatten(),256, alpha=0.2, density=True, label='clahe_clip')
         plt.legend()
@@ -37,18 +40,21 @@ def equalize(img, clip_limit=0.1, med_filt=5, flag_draw=False):
 dir_name = '/Users/gvegas/data/earlyCOVID-19/CheXpert/mild/'
 cxr_files_chexpert = [join(dir_name, f) for f in listdir(dir_name) if isfile(join(dir_name, f))]
 
-dir_name = '/Users/gvegas/data/earlyCOVID-19/PADCHEST/mild/'
+dir_name = '/Users/gvegas/data/earlyCOVID-19/PADCHEST/moderate-severe/'
 cxr_files_padchest = [join(dir_name, f) for f in listdir(dir_name) if isfile(join(dir_name, f))]
 
-dir_name = '/Users/gvegas/data/earlyCOVID-19/NIHDeepLesion/mild/'
+dir_name = '/Users/gvegas/data/earlyCOVID-19/NIHDeepLesion/moderate-severe/'
 cxr_files_nihdeeplesion = [join(dir_name, f) for f in listdir(dir_name) if isfile(join(dir_name, f))]
 
 
 img = image.imread(cxr_files_chexpert[3])
-img2 = equalize(img, clip_limit=0.1, med_filt=5, flag_draw=True)
+img2 = equalize(img, flag_draw=True)
 
 img = image.imread(cxr_files_padchest[3])
-img2 = equalize(img, clip_limit=0.1, med_filt=5, flag_draw=True)
+img2 = equalize(img, flag_draw=True)
 
-img = image.imread(cxr_files_nihdeeplesion[3])
-img2 = equalize(img, clip_limit=0.1, med_filt=5, flag_draw=True)
+img = image.imread(cxr_files_nihdeeplesion[0])
+img2 = equalize(img, flag_draw=True)
+
+
+img2.min()
