@@ -7,6 +7,11 @@ from matplotlib import image
 from os import listdir
 from os.path import isfile, join
 
+from matplotlib import image
+from skimage import io, exposure, filters
+from argparse import ArgumentParser
+
+
 def equalize(img, clip_limit=0.01, med_filt=5,output_type='uint16', flag_draw=False,):
     if img.dtype is np.dtype(np.float32):
         img_norm = img / img.max()                                    # Format adaptation
@@ -42,28 +47,50 @@ def equalize(img, clip_limit=0.01, med_filt=5,output_type='uint16', flag_draw=Fa
 
     return img_out
 
+def test():
 
-#basedir='/Users/rjosest/projects/COVID19/COVID_project/'
-basedir='Users/gvegas/data/earlyCOVID-19/'
-dir_name = basedir+'CheXpert/mild/'
-cxr_files_chexpert = [join(dir_name, f) for f in listdir(dir_name) if isfile(join(dir_name, f))]
+    #basedir='/Users/rjosest/projects/COVID19/COVID_project/'
+    basedir='Users/gvegas/data/earlyCOVID-19/'
+    dir_name = basedir+'CheXpert/mild/'
+    cxr_files_chexpert = [join(dir_name, f) for f in listdir(dir_name) if isfile(join(dir_name, f))]
 
-dir_name = basedir+'PADCHEST/moderate-severe/'
-cxr_files_padchest = [join(dir_name, f) for f in listdir(dir_name) if isfile(join(dir_name, f))]
+    dir_name = basedir+'PADCHEST/moderate-severe/'
+    cxr_files_padchest = [join(dir_name, f) for f in listdir(dir_name) if isfile(join(dir_name, f))]
 
-dir_name = basedir+'NIHDeepLesion/moderate-severe/'
-cxr_files_nihdeeplesion = [join(dir_name, f) for f in listdir(dir_name) if isfile(join(dir_name, f))]
-
-
-img = image.imread(cxr_files_chexpert[3])
-img2 = equalize(img, flag_draw=True)
-
-img = image.imread(cxr_files_padchest[3])
-img2 = equalize(img, flag_draw=True)
-
-img = image.imread(cxr_files_nihdeeplesion[0])
-img2 = equalize(img, flag_draw=True)
+    dir_name = basedir+'NIHDeepLesion/moderate-severe/'
+    cxr_files_nihdeeplesion = [join(dir_name, f) for f in listdir(dir_name) if isfile(join(dir_name, f))]
 
 
-print(img2.min())
-print(img2.max())
+    img = image.imread(cxr_files_chexpert[3])
+    img2 = equalize(img, flag_draw=True)
+
+    img = image.imread(cxr_files_padchest[3])
+    img2 = equalize(img, flag_draw=True)
+
+    img = image.imread(cxr_files_nihdeeplesion[0])
+    img2 = equalize(img, flag_draw=True)
+
+
+    print(img2.min())
+    print(img2.max())
+
+
+if __name__ == "__main__":
+
+    desc='X-ray image equalization'
+    parser = ArgumentParser(description=desc)
+    parser.add_argument('-i', help='Input image', dest='input', type=str, metavar='<str>', default=None)
+    parser.add_argument('-o', help='Output image', dest='output', type=str, metavar='<str>', default=None)
+    parser.add_argument('--test', help='Run test', dest='test', action='store_true')
+
+    op = parser.parse_args()
+
+    if op.test:
+      test()
+    else:
+        #Reading images
+        img = image.imread(op.input)
+        img2 = equalize(img, flag_draw=False, output_type='uint16')
+        #Saving images
+        io.imsave(op.output, img2)
+
