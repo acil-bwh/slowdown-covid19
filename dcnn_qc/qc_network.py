@@ -1,6 +1,9 @@
 
 from __future__ import division
-from future.utils import iteritems
+try:
+    from future.utils import iteritems
+except ModuleNotFoundError:
+    pass
 import os
 import logging
 import argparse
@@ -24,14 +27,21 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.layers import Input,BatchNormalization,Conv2D,MaxPooling2D,Dense,Add,Multiply
 from tensorflow.keras.layers import ReLU,GlobalMaxPooling2D
 from tensorflow.keras.models import Model
-from keras.utils.io_utils import HDF5Matrix
+try:
+    from keras.utils.io_utils import HDF5Matrix
+except ModuleNotFoundError:
+    from tensorflow.keras.utils import HDF5Matrix
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 
 from tensorflow.keras.models import load_model
 
 from tensorflow.keras.layers import Lambda,Multiply
 from tensorflow.keras import backend as K
-from tensorflow.math import divide
+try:
+    from tensorflow.math import divide
+except ModuleNotFoundError:
+    divide = tf.math.divide
+
 
 import pandas as pd
 
@@ -221,11 +231,11 @@ class SlowdownCOVID19QCEngine():
             shuffle=False)
 
         #Loop through images
-	    if weights is True:
+        if weights is False:
             model = load_model(model_file)
         else:
-	        model=self.Model3()
-	        model.load_weights(model_file)
+            model=self.Model3()
+            model.load_weights(model_file)
 
         STEP_SIZE_TEST = test_generator.n // test_generator.batch_size
         test_generator.reset()
@@ -275,8 +285,8 @@ if __name__ == "__main__":
     if args.operation == 'TRAIN':
         e.train(args.training_h5)
     elif args.operation == 'TEST':
-        if model is None:
-	        results_df=e.test(args.test_dir,args.model_w,weights=True)
+        if args.model is None:
+            results_df=e.test(args.test_dir,args.model_w,weights=True)
         else:
             results_df=e.test(args.test_dir,args.model,weights=False)
         #Saving results to csv file
