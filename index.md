@@ -18,7 +18,7 @@ We are developing a free stand-alone client-based web tool for early detection o
 
 The application is under development and the team is making great progress. Here is a beta test version
 
-![Covictory App Beta test](images/covictory-gui.png){:class="img-responsive"}
+![Covictory App Beta test](images/covictory-gui.png){:class="img-responsive",:height="250px" width="250px"}
 
 Stay tuned!!. We hope to have a demo site ready in the next few days.
 
