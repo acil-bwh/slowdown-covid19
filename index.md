@@ -16,7 +16,11 @@ More information can be found [here](https://radiopaedia.org/articles/coronaviru
 ### "Covictory" App
 We are developing a free stand-alone client-based web tool for early detection of mild pneumonia from CXR images to help prevent the epidemic. 
 
-The application is under development and the team is making great progress. Stay tuned!!. We hope to have a demo site early next week.
+The application is under development and the team is making great progress. Here is a beta test version
+
+![Covictory App Beta test](images/covictory-gui.png){:class="img-responsive"}
+
+Stay tuned!!. We hope to have a demo site ready in the next few days.
 
 ### How does it work?
 We have used three major public X-ray databases to isolate cases with pneumonia. We have further subclassified those cases signs of mild vs. moderate/severe pneumonia to train an artificial intelligence system that can detect early pneumonia as a potential sign of COVID-19 infection and health status worsening.  
