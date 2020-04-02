@@ -2,6 +2,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 import argparse
+import nrrd
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -88,7 +89,7 @@ def train(h5_dataset_file, output_folder):
     earlyStopping = callbacks.EarlyStopping(monitor='val_loss', patience=10, verbose=0, mode='min')
 
     network = COVID19EqualizationNetwork(target_image_size=(1024,1024))
-    network.build_model(True, optimizer=tf.keras.optimizers.Adam(lr=1e-5),
+    network.build_model(True, optimizer=tf.keras.optimizers.Adam(lr=1e-4),
                         loss_function='mse', additional_metrics=['mae'],
                         pretrained_weights_file_path=None)
     model = network.model
@@ -122,6 +123,18 @@ def train(h5_dataset_file, output_folder):
     ax2.savefig(loss_filepath)
 
 
+def test(h5_dataset_file, model_path, output_file):
+    network = COVID19EqualizationNetwork(target_image_size=(1024, 1024))
+    network.build_model(True, optimizer=tf.keras.optimizers.Adam(lr=1e-4),
+                        loss_function='mse', additional_metrics=['mae'],
+                        pretrained_weights_file_path=model_path)
+    model = network.model
+
+    val_images = HDF5Matrix(h5_dataset_file, 'X_val')
+    pred = model.predict(val_images, batch_size=1)
+
+    nrrd.write(output_file, pred.squeeze())
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Detect potential signs of COVID-19 for epidemiological control using '
@@ -130,10 +143,11 @@ if __name__ == "__main__":
                         choices=['TRAIN', 'TEST'])
     parser.add_argument('--i', help="Input h5 dataset file", type=str, required=True)
     parser.add_argument('--o', help="Output folder", type=str, required=False)
-    # parser.add_argument('--m', help="Model file to use for validation/testing",type=str)
+    parser.add_argument('--m', help="Model file to use for validation/testing",type=str)
+    parser.add_argument('--o_val', help="Output file (.nrrd) to save validation images",type=str)
 
     args = parser.parse_args()
     if args.operation == 'TRAIN':
         train(args.i, args.o)
-    # elif args.operation == 'TEST':
-    #     test(args.i,args.m,args.out_csv)
+    elif args.operation == 'TEST':
+        test(args.i,args.m,args.o_val)
