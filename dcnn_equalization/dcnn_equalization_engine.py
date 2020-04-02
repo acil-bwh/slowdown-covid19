@@ -71,8 +71,9 @@ class COVID19EqualizationNetwork(Network):
         conv12 = self.conv2d(conv11, filters=32, kernel_size=3, batch_normalization=True)
 
         add2 = tf.keras.layers.concatenate([conv9, conv12], axis=-1)
+        conv13 = self.conv2d(add2, filters=1, kernel_size=3, batch_normalization=True)
 
-        return tf.keras.models.Model(inputs=inputs, outputs=add2)
+        return tf.keras.models.Model(inputs=inputs, outputs=conv13)
 
 
 def train(h5_dataset_file, output_folder):
