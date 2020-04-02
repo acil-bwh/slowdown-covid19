@@ -60,6 +60,8 @@ This is not meant to be a diagnostic tool. This tool has not been certified by a
 * Sarah Gerard
 * Alejandro Diaz
 
+### Acknoweldgements
+Thank you to NIH and funding awards:xxxxx
 
 ### Data sharing resources
 - https://www.eurorad.org/submit
