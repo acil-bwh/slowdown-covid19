@@ -17,15 +17,23 @@ for ss in CheXpert NIHDeepLesion PADCHEST; do
     for ff in $in_file_list; do
 
     cp $ff ${out_dir}/input/
+
+    gg=`basename $ff`
+
+    root_name=`echo $gg | cut -d . -f1`
+
+    cp ${normalized_dir}/$ss/$tt/${root_name}.png ${out_dir}/output/
+
+
     done
 
 
-    out_file_list=`find ${normalized_dir}/$ss/$tt/ | head -80`
-
-    for ff in $out_file_list; do
-
-    cp $ff ${out_dir}/output/
-    done
+##out_file_list=`find ${normalized_dir}/$ss/$tt/ | head -80`
+#
+#    for ff in $out_file_list; do
+#
+#    cp $ff ${out_dir}/output/
+#    done
 
  done
 
@@ -33,14 +41,21 @@ for ss in CheXpert NIHDeepLesion PADCHEST; do
     for ff in $in_file_list; do
 
     cp $ff ${out_dir}/input/
+
+    gg=`basename $ff`
+
+    root_name=`echo $gg | cut -d . -f1`
+
+    cp ${normalized_dir}/$ss/normal/${root_name}.png ${out_dir}/output/
+
     done
 
 
-  out_file_list=`find ${normalized_dir}/$ss/normal/ | head -140`
-
-  for ff in $out_file_list; do
-    cp $ff ${out_dir}/output/
-  done
+#  out_file_list=`find ${normalized_dir}/$ss/normal/ | head -140`
+#
+#  for ff in $out_file_list; do
+#    cp $ff ${out_dir}/output/
+#  done
 
 done
 
