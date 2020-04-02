@@ -30,7 +30,7 @@ While point of care (PoC) molecular testing can fulfill this need in the longer 
 ### "Covictory" App
 We have devleoped  a free stand-alone client-based web tool for automatic early detection of mild pneumonia from CXR images to help prevent the epidemic.  Beta test version [https://covictory.dev]
 
-![Covictory App Beta test](images/covictory-mobile-gui.png | width=200){:class="img-responsive",:width="200px"}
+![Covictory App Beta test](images/covictory-mobile-gui.png | width=200)
 
 
 ### How does it work?
@@ -38,7 +38,7 @@ We have used three major public X-ray databases to isolate cases with pneumonia.
 
 Our current performace characteristics on an independent testing set
 
-![Performance characteristics](images/slowdonwcovic19-network-performance.png | width=250){:class="img-responsive",:width="250px"}
+![Performance characteristics](images/slowdonwcovic19-network-performance.png | width=250)
 
 ### Support or Contact
 This tool has been developed by the team of researchers at the [Applied Chest Imaging Laboratory](acil.med.harvard.edu). 
