@@ -35,7 +35,7 @@ We have devleoped  a free stand-alone client-based web tool for automatic early 
 
 
 ### How does it work?
-We have used three major public X-ray databases to isolate cases with pneumonia. We have further subclassified those cases signs of mild vs. moderate/severe pneumonia to train an artificial intelligence system that can detect early pneumonia as a potential sign of COVID19 infection and health status worsening. The network that we have impletemed is inspired on an [efficient network] (https://www.nature.com/articles/s41598-019-42557-4?proof=trueMay%252F)
+We have used three major public X-ray databases to isolate cases with pneumonia. We have further subclassified those cases signs of mild vs. moderate/severe pneumonia to train an artificial intelligence system that can detect early pneumonia as a potential sign of COVID19 infection and health status worsening. The network that we have impletemed is inspired on an [efficient network architecture] (https://www.nature.com/articles/s41598-019-42557-4?proof=trueMay%252F)
 
 Our current performace characteristics on an independent testing set
 
