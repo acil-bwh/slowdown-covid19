@@ -8,7 +8,7 @@ On March 11, WHO declared COVID19 a pandemic. Since then, public health official
 
 Early detection and screening is critical to manage the pandemic from a public health perspective. It will be even more important in the second phase of this crisis when public health officials decide to progressively stop the strict confimenent measurements. Pandemic control measurements will be in need.
 
-![Pandemic control phases](images/pandemic-control-evolution.png){:height="500px" width="500px"}
+![Pandemic control phases](images/pandemic-control-evolution.png){:width="500px"}
 
 The definitive test for SARS-CoV-2 is the real-time reverse transcriptase-polymerase chain reaction (RT-PCR) test. However, radiographic findings have been reported as a potential tool for screening. The typical radiographic findings that have been reported [are](https://radiopaedia.org/articles/coronavirus-disease-2019-covid-19-1?lang=us):
 - ground-glass opacities (GGO) in all hospitalized patients
