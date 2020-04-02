@@ -1,5 +1,5 @@
 ## Slow-down COVID-19
-
+{{ content }}
 ### Goal
 Enable pandemic control tool through chest X-ray (CXR) screening to detect early signs of COVID19 using artificila intelligence and mobile apps.
 
