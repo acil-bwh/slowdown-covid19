@@ -66,11 +66,11 @@ if __name__ == "__main__":
                         choices=['TRAIN', 'TEST'])
     parser.add_argument('--i', help="Input h5 dataset file", type=str, required=True)
     parser.add_argument('--o', help="Output folder", type=str, required=False)
-    parser.add_argument('--m', help="Model file to use for validation/testing",type=str)
-    parser.add_argument('--out_csv', help="Prediction results (csv format). Use in testing or validation")
+    # parser.add_argument('--m', help="Model file to use for validation/testing",type=str)
+    # parser.add_argument('--out_csv', help="Prediction results (csv format). Use in testing or validation")
 
     args = parser.parse_args()
     if args.operation == 'TRAIN':
         train(args.i, args.o)
-    elif args.operation == 'TEST':
-        test(args.i,args.m,args.out_csv)
+    # elif args.operation == 'TEST':
+    #     test(args.i,args.m,args.out_csv)
