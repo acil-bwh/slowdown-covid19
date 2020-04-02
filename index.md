@@ -31,16 +31,19 @@ While point of care (PoC) molecular testing can fulfill this need in the longer 
 ### "Covictory" App
 We have devleoped  a free stand-alone client-based web tool for automatic early detection of mild pneumonia from CXR images to help prevent the epidemic.  Beta test version [https://covictory.github.io/site/cxr/]
 
-![Covictory App Beta test](images/covictory-mobile-gui.png){:class="img-responsive",:height="250px" width="250px"}
+![Covictory App Beta test](images/covictory-mobile-gui.png){:class="img-responsive",:width="250px"}
 
 
 ### How does it work?
 We have used three major public X-ray databases to isolate cases with pneumonia. We have further subclassified those cases signs of mild vs. moderate/severe pneumonia to train an artificial intelligence system that can detect early pneumonia as a potential sign of COVID19 infection and health status worsening.  
 
-Our current performace characteristics on an independent testing set are as follows:
+Our current performace characteristics on an independent testing set
+
+[Performance characteristics](images/slowdonwcovic19-network-performance.png){:class="img-responsive",:width="250px"}
 
 ### Support or Contact
 This tool has been developed by the team of researchers at the [Applied Chest Imaging Laboratory](acil.med.harvard.edu). 
+
 Code and models are open-source and will be make available shortly for integration in any system. Stay tuned!!!
 
 Contact information: [Raul San Jose Estepar](rsanjose@bwh.harvard.edu)
@@ -48,7 +51,15 @@ Contact information: [Raul San Jose Estepar](rsanjose@bwh.harvard.edu)
 ### Disclamer
 This is not meant to be a diagnostic tool. This tool has not been certified by any agency and is not considered a medical device.
 
-### Develop Team
+### Developing Team
+* Raul San Jose Estepar
+* Pietro Nardelli
+* Steve Pieper
+* Gonzalo Vegas Sanchez-Ferrero
+* Ruben San Jose Estepar
+* James Ross
+* Sarah Gerard
+* Alejandro Diaz
 
 
 ### Data sharing resources
