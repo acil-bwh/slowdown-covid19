@@ -29,7 +29,7 @@ While point of care (PoC) molecular testing can fulfill this need in the longer 
 
 
 ### "Covictory" App
-We have devleoped  a free stand-alone client-based web tool for automatic early detection of mild pneumonia from CXR images to help prevent the epidemic.  [Beta test version](https://covictory.dev)
+We have devleoped  a free stand-alone client-based web tool for automatic early detection of mild pneumonia from CXR images to help prevent the epidemic.  [Beta test version](https://covictoryapp.org)
 
 ![Covictory App Beta test](images/covictory-mobile-gui.png){:width="400px"}
 
