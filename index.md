@@ -1,7 +1,12 @@
 ## Slow-down COVID-19
 {:toc}
 ### Goal
-Enable pandemic control tool through chest X-ray (CXR) screening to detect early signs of COVID19 using artificila intelligence and mobile apps.
+AI app for screening of mild pneumonia using portable Chest X-ray (CXR) geared towards epidemiological control of COVID19 in a pre-clinical settings.
+
+### How does it work?
+[Covictory App](https://covictoryapp.org) for CXR early pneumonia screening
+
+![Covictoryapp workflow](images/covictoryapp-workflow.png){:width="800px"}
 
 ### Background
 On March 11, WHO declared COVID19 a pandemic. Since then, public health officials have faced tough decision aimed at controling the pandemic by means of social distancing, confinement and isolation of positives cases. This extreme measurements try to content the infectious curve by reducting the contagious rate so the heatlh care systems can meet the unforseen and striking high demand. 
@@ -33,7 +38,7 @@ We have devleoped  a free stand-alone client-based web tool for automatic early 
 ![Covictory App Beta test](images/covictory-mobile-gui.png){:width="400px"}
 
 
-### How does it work?
+### AI Engine and Performance
 We have used three major public X-ray databases to isolate cases with pneumonia. We have further subclassified those cases signs of mild vs. moderate/severe pneumonia to train an artificial intelligence system that can detect early pneumonia as a potential sign of COVID19 infection and health status worsening. The network that we have impletemed is inspired on an [efficient network architecture](https://www.nature.com/articles/s41598-019-42557-4?proof=trueMay%252F)
 
 Our current performace characteristics on an independent testing set
