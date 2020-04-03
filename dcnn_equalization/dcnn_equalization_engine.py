@@ -83,14 +83,14 @@ def train(h5_dataset_file, output_folder):
     X_v = HDF5Matrix(h5_dataset_file, 'X_val')
     y_v = HDF5Matrix(h5_dataset_file, 'y_val')
 
-    path = output_folder + '/equalization_model-{epoch:03d}-{mean_absolute_error:03f}-{val_mean_absolute_error:03f}.h5'
+    path = output_folder + '/equalization_model-{epoch:03d}-{mean_squared_error:03f}-{val_mean_squared_error:03f}.h5'
 
     model_checkpoint = callbacks.ModelCheckpoint(path, verbose=1, monitor='val_loss', save_best_only=False, mode='auto')
     earlyStopping = callbacks.EarlyStopping(monitor='val_loss', patience=10, verbose=0, mode='min')
 
     network = COVID19EqualizationNetwork(target_image_size=(1024,1024))
-    network.build_model(True, optimizer=tf.keras.optimizers.Adam(lr=1e-4),
-                        loss_function='mse', additional_metrics=['mae'],
+    network.build_model(True, optimizer=tf.keras.optimizers.Adam(lr=1e-5),
+                        loss_function='mae', additional_metrics=['mse'],
                         pretrained_weights_file_path=None)
     model = network.model
     history = model.fit(X_t, y_t, shuffle=False, batch_size=3, epochs=100, validation_data=(X_v, y_v),
@@ -99,8 +99,8 @@ def train(h5_dataset_file, output_folder):
     final_path = output_folder + 'equalization-last_model.h5'
     model.save(final_path, overwrite=True)
 
-    acc = history.history['mean_absolute_error']
-    val_acc = history.history['val_mean_absolute_error']
+    acc = history.history['mean_squared_error']
+    val_acc = history.history['val_mean_squared_error']
     loss = history.history['loss']
     val_loss = history.history['val_loss']
 
@@ -126,7 +126,7 @@ def train(h5_dataset_file, output_folder):
 def test(h5_dataset_file, model_path, output_file):
     network = COVID19EqualizationNetwork(target_image_size=(1024, 1024))
     network.build_model(True, optimizer=tf.keras.optimizers.Adam(lr=1e-4),
-                        loss_function='mse', additional_metrics=['mae'],
+                        loss_function='mae', additional_metrics=['mse'],
                         pretrained_weights_file_path=model_path)
     model = network.model
 
