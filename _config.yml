@@ -1,2 +1,7 @@
 theme: jekyll-theme-cayman
+title: Slow down COVID19
+description: AI for epidemological control of COVID19 on chest X-ray
+author: Raul San Jose Estepar
 markdown: kramdown
+  - jekyll-seo-tag
+google_analytics: UA-70945150-2
