@@ -19,10 +19,10 @@ The definitive test for SARS-CoV-2 is the real-time reverse transcriptase-polyme
 Those finding can be detected both in CXR and CT. ALthough CT is more specific, CXR offers a first line of screenign for lung changes related to pneumonia.
 
 The main caractheristics of a pandemic control tool should be 
-- High-throughput: ability to do full screening in exposed population even asymptomatic
-- Portable: reaching the community without bringing them to major care setting due to avoid nosocomial infections
-- Reusable: testing reagents face supplies sortages due to high demand
-- Sensitive: detection of early signs (or at least the more acute form of the disease) 
+- __High-throughput__: ability to do full screening in exposed population even asymptomatic
+- __Portable__: reaching the community without bringing them to major care setting due to avoid nosocomial infections
+- __Reusable__: testing reagents face supplies sortages due to high demand
+- __Sensitive__: detection of early signs (or at least the more acute form of the disease) 
 
 While point of care (PoC) molecular testing can fulfill this need in the longer term, they are still being developed and  approved. CXR can serve as a testing surrogate for early population management to provide a massive screening tool if automatic interpretation is available.
 
@@ -47,8 +47,8 @@ Code and models are open-source and to enable system integration:
 * AI network [Github](https://github.com/acil-bwh/slowdown-covid19/tree/master/dcnn_classification)
 * Covictory web app [Github](https://github.com/covictory/site)
 * Training utilities
-** Data curation [Github](https://github.com/acil-bwh/slowdown-covid19/tree/master/dcnn_qc)
-** CXR equalization [Github](https://github.com/acil-bwh/slowdown-covid19/tree/master/equalization)
+  * Data curation [Github](https://github.com/acil-bwh/slowdown-covid19/tree/master/dcnn_qc)
+  * CXR equalization [Github](https://github.com/acil-bwh/slowdown-covid19/tree/master/equalization)
 ** DNN equalization [Github](https://github.com/acil-bwh/slowdown-covid19/tree/master/dcnn_equalization)
 * Trained models (coming soon)
 * Training datasets (coming soon)
