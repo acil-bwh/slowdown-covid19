@@ -49,7 +49,7 @@ Code and models are open-source and to enable system integration:
 * Training utilities
   * Data curation [Github](https://github.com/acil-bwh/slowdown-covid19/tree/master/dcnn_qc)
   * CXR equalization [Github](https://github.com/acil-bwh/slowdown-covid19/tree/master/equalization)
-** DNN equalization [Github](https://github.com/acil-bwh/slowdown-covid19/tree/master/dcnn_equalization)
+  * DNN equalization [Github](https://github.com/acil-bwh/slowdown-covid19/tree/master/dcnn_equalization)
 * Trained models (coming soon)
 * Training datasets (coming soon)
 
