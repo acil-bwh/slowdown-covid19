@@ -54,9 +54,9 @@ class COVID19EqualizationNetwork(Network):
 
         # Part 2 (Down-sampling)
         pool1 = tf.keras.layers.MaxPool2D(pool_size=(2, 2))(conv3)
-        conv4 = self.conv2d(pool1, filters=24, kernel_size=3, batch_normalization=True)
-        conv5 = self.conv2d(conv4, filters=24, kernel_size=3, batch_normalization=True)
-        conv6 = self.conv2d(conv5, filters=12, kernel_size=3, batch_normalization=True)
+        conv4 = self.conv2d(pool1, filters=24, kernel_size=15, batch_normalization=True)
+        conv5 = self.conv2d(conv4, filters=24, kernel_size=15, batch_normalization=True)
+        conv6 = self.conv2d(conv5, filters=12, kernel_size=15, batch_normalization=True)
 
         # Part 3 (Up-sampling)
         up1 = tf.keras.layers.UpSampling2D(size=(2, 2))(conv6)
@@ -90,7 +90,7 @@ def train(h5_dataset_file, output_folder):
     earlyStopping = callbacks.EarlyStopping(monitor='val_loss', patience=10, verbose=0, mode='min')
 
     network = COVID19EqualizationNetwork(target_image_size=(1024,1024))
-    network.build_model(True, optimizer=tf.keras.optimizers.Adam(lr=1e-6),
+    network.build_model(True, optimizer=tf.keras.optimizers.Adam(lr=1e-5),
                         loss_function='mae', additional_metrics=['mse'],
                         pretrained_weights_file_path=None)
     model = network.model
@@ -110,7 +110,7 @@ def train(h5_dataset_file, output_folder):
     fig, (ax1, ax2) = plt.subplots(1, 2)
     ax1.plot(epochs, acc, 'bo', label='Training acc')
     ax1.plot(epochs, val_acc, 'b', label='Validation acc')
-    ax1.title('Training and validation accuracy')
+    # ax1.title('Training and validation accuracy')
     ax1.legend()
     accuracy_filepath = output_folder + 'accuracy_history.jpg'
     ax1.savefig(accuracy_filepath)
@@ -118,7 +118,7 @@ def train(h5_dataset_file, output_folder):
     ax2.figure()
     ax2.plot(epochs, loss, 'bo', label='Training loss')
     ax2.plot(epochs, val_loss, 'b', label='Validation loss')
-    ax2.title('Training and validation loss')
+    # ax2.title('Training and validation loss')
     ax2.legend()
     loss_filepath = output_folder + 'loss_history.jpg'
     ax2.savefig(loss_filepath)
