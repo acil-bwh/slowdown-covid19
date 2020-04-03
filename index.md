@@ -43,7 +43,15 @@ Our current performace characteristics on an independent testing set
 ### Support or Contact
 This tool has been developed by the team of researchers at the [Applied Chest Imaging Laboratory](acil.med.harvard.edu). 
 
-Code and models are open-source and will be make available shortly for integration in any system. Stay tuned!!!
+Code and models are open-source and to enable system integration:
+* AI network [Github](https://github.com/acil-bwh/slowdown-covid19/tree/master/dcnn_classification)
+* Covictory web app [Github](https://github.com/covictory/site)
+* Training utilities
+** Data curation [Github](https://github.com/acil-bwh/slowdown-covid19/tree/master/dcnn_qc)
+** CXR equalization [Github](https://github.com/acil-bwh/slowdown-covid19/tree/master/equalization)
+** DNN equalization [Github](https://github.com/acil-bwh/slowdown-covid19/tree/master/dcnn_equalization)
+* Trained models (coming soon)
+* Training datasets (coming soon)
 
 Contact information: [Raul San Jose Estepar](rsanjose@bwh.harvard.edu)
 
