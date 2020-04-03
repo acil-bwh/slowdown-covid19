@@ -3,6 +3,7 @@ from __future__ import division
 from __future__ import print_function
 import argparse
 import nrrd
+from sklearn.metrics import mean_absolute_error
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -55,11 +56,11 @@ class COVID19EqualizationNetwork(Network):
         pool1 = tf.keras.layers.MaxPool2D(pool_size=(2, 2))(conv3)
         conv4 = self.conv2d(pool1, filters=24, kernel_size=3, batch_normalization=True)
         conv5 = self.conv2d(conv4, filters=24, kernel_size=3, batch_normalization=True)
-        conv6 = self.conv2d(conv5, filters=24, kernel_size=3, batch_normalization=True)
+        conv6 = self.conv2d(conv5, filters=12, kernel_size=3, batch_normalization=True)
 
         # Part 3 (Up-sampling)
         up1 = tf.keras.layers.UpSampling2D(size=(2, 2))(conv6)
-        add1 = tf.keras.layers.concatenate([up1, conv3], axis=-1)
+        add1 = tf.keras.layers.add([up1, conv3])
 
         # Part 4
         conv7 = self.conv2d(add1, filters=12, kernel_size=3, batch_normalization=True)
@@ -71,7 +72,7 @@ class COVID19EqualizationNetwork(Network):
         conv11 = self.conv2d(conv10, filters=12, kernel_size=3, batch_normalization=True)
         conv12 = self.conv2d(conv11, filters=12, kernel_size=3, batch_normalization=True)
 
-        add2 = tf.keras.layers.concatenate([conv9, conv12], axis=-1)
+        add2 = tf.keras.layers.add([conv9, conv12])
         conv13 = self.conv2d(add2, filters=1, kernel_size=3, batch_normalization=False, activation='sigmoid')
 
         return tf.keras.models.Model(inputs=inputs, outputs=conv13)
@@ -89,7 +90,7 @@ def train(h5_dataset_file, output_folder):
     earlyStopping = callbacks.EarlyStopping(monitor='val_loss', patience=10, verbose=0, mode='min')
 
     network = COVID19EqualizationNetwork(target_image_size=(1024,1024))
-    network.build_model(True, optimizer=tf.keras.optimizers.Adam(lr=1e-5),
+    network.build_model(True, optimizer=tf.keras.optimizers.Adam(lr=1e-6),
                         loss_function='mae', additional_metrics=['mse'],
                         pretrained_weights_file_path=None)
     model = network.model
@@ -132,6 +133,9 @@ def test(h5_dataset_file, model_path, output_file):
 
     val_images = HDF5Matrix(h5_dataset_file, 'X_val')
     pred = model.predict(val_images, batch_size=1)
+
+    original_val = HDF5Matrix(h5_dataset_file, 'y_val')[:]
+    print('MAE: ', mean_absolute_error(original_val.flatten(), pred.flatten()))
 
     nrrd.write(output_file, pred.squeeze())
 
