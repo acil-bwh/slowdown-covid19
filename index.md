@@ -58,7 +58,7 @@ Code and models are open-source and to enable system integration:
 * Trained models (coming soon)
 * Training datasets (coming soon)
 
-Contact information: [Raul San Jose Estepar](rsanjose@bwh.harvard.edu)
+Contact information: [Raul San Jose Estepar](https://acil.med.harvard.edu/people/raul-san-jose-estepar)
 
 ### Disclamer
 This is not meant to be a diagnostic tool. This tool has not been certified by any agency and is not considered a medical device.
