@@ -76,6 +76,8 @@ This is not meant to be a diagnostic tool. This tool has not been certified by a
 ### Acknoweldgements
 Thank you to NIH and funding awards:xxxxx
 
+Development of the covictory app was supported in part by [Isomics, Inc.](https://isomics.com) and the [Neuroimage Analysis Center](https://nac.spl.harvard.edu), a Biomedical Technology Resource Center supported by the National Institute of Biomedical Imaging and Bioengineering (NIBIB) (P41 EB015902). 
+
 ### Data sharing resources
 - https://www.eurorad.org/submit
 - https://github.com/ieee8023/covid-chestxray-dataset
