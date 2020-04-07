@@ -17,15 +17,11 @@ from six.moves import range
 import numpy as np
 import pandas as pd
 
-from matplotlib import image
-
 import tensorflow as tf
 
-from .slowdown_covid19_network import *
+from tensorflow.keras.applications.densenet import DenseNet121
+from cip_python.dcnn.logic import Network, Utils
 
-
-from skimage.color import rgb2gray, gray2rgb
-from skimage.transform import resize
 
 if pil_image is not None:
     _PIL_INTERPOLATION_METHODS = {
@@ -190,9 +186,9 @@ def _list_valid_filenames_in_directory(directory, white_list_formats, split):
     for root, fname in valid_files:
         # classes.append(class_indices[dirname])
         absolute_path = os.path.join(root, fname)
-        relative_path = os.path.join(
-            dirname, os.path.relpath(absolute_path, directory))
+        relative_path = os.path.relpath(absolute_path, directory)
         filenames.append(relative_path)
+        print(relative_path)
 
     return filenames
 
@@ -283,7 +279,7 @@ def img_to_array(img, data_format='channels_last', dtype='float32'):
     return x
 
 
-def equalize_core(img_in, clip_limit=0.01, med_filt=5, output_type='uint16'):
+def equalize(img_in, clip_limit=0.01, output_type='uint16', target_size=(1024, 1024), interpolation='nearest'):
     if len(img_in.shape) == 3:
         img = img_in[:, :, 0]
     else:
@@ -292,12 +288,9 @@ def equalize_core(img_in, clip_limit=0.01, med_filt=5, output_type='uint16'):
     if img.dtype is np.dtype(np.float32):
         img_norm = img / img.max()  # Format adaptation
     else:
-        img_norm = img.astype('float32') / \
-            np.iinfo(img.dtype).max  # Format adaptation
-    img_clahe = exposure.equalize_adapthist(
-        img_norm, clip_limit=clip_limit)  # CLAHE
-    img_clahe_median = filters.median(img_clahe, np.ones(
-        (5, 5))).astype('float32')  # Median Filter
+        img_norm = img.astype('float32') / np.iinfo(img.dtype).max  # Format adaptation
+    img_clahe = exposure.equalize_adapthist(img_norm, clip_limit=clip_limit)  # CLAHE
+    img_clahe_median = filters.median(img_clahe, np.ones((5, 5))).astype('float32')  # Median Filter
 
     lower, upper = np.percentile(img_clahe_median.flatten(), [2, 98])
     img_clip = np.clip(img_clahe_median, lower, upper)
@@ -308,17 +301,6 @@ def equalize_core(img_in, clip_limit=0.01, med_filt=5, output_type='uint16'):
         img_out = (max_val * img_out).astype(output_type)
     else:
         max_val = 1.0
-    return img
-
-
-def equalize(img_in, clip_limit=0.01, output_type='uint16', target_size=(1024, 1024), interpolation='nearest'):
-
-    if len(img_in.shape) == 3:
-        img = img_in[:, :, 0]
-    else:
-        img = img_in.copy()
-
-    equalize_core(img, clip_limit, ouput_type=output_type)
 
     if target_size is not None:
         width_height_tuple = (target_size[1], target_size[0])
@@ -792,6 +774,98 @@ class ImageDataGenerator(object):
         return x
 
 
+class SlowdownCOVID19Network(Network):
+    """
+                 Class that will handle the architecture of the network.
+    """
+    def __init__(self, target_image_size=(224, 224), use_imagenet_weights=False, net_type='TBNet'):
+        """
+        Constructor
+        :param image_size: int
+        :param nb_input_channels: int
+        """
+        # Calculate input/output sizes based on the patch sizes
+        # Assume isometric patch size
+        self.target_image_size = (target_image_size[0], target_image_size[1], 3)
+
+        xs_sizes = ((target_image_size[0], target_image_size[1], 3),)  # image size
+        ys_sizes = ((3,),)  # 3 classes (normal, mild, moderate-severe)
+
+        # Use parent constructor
+        Network.__init__(self, xs_sizes, ys_sizes)
+
+        self.use_imagenet_weights = use_imagenet_weights
+        self._expected_input_values_range_ = (0.0, 1.0)  # TODO: change these values
+        self.net_type = net_type
+
+    def conv_block(self, input_layer, n_filters, length=2, pool=True, stride=1):
+        layer = input_layer
+        for i in range(length):
+            layer = tf.keras.layers.Conv2D(n_filters, (3, 3), strides=stride, padding='same',
+                                           kernel_initializer=tf.keras.initializers.he_normal())(layer)
+            layer = tf.keras.layers.BatchNormalization()(layer)
+            layer = tf.keras.layers.ReLU()(layer)
+
+        parallel = tf.keras.layers.Conv2D(n_filters, (1, 1), strides=stride ** length, padding='same',
+                                          kernel_initializer=tf.keras.initializers.he_normal())(input_layer)
+        parallel = tf.keras.layers.BatchNormalization()(parallel)
+        parallel = tf.keras.layers.ReLU()(parallel)
+
+        output = tf.keras.layers.add([layer, parallel])
+        # divide_layer = tf.keras.layers.Conv2D(n_filters, (1, 1), strides=1, padding='same', use_bias=False,
+        #                                       kernel_initializer=tf.keras.initializers.Constant(value=0.5),
+        #                                       trainable=False)(output)
+        if pool:
+            output = tf.keras.layers.MaxPooling2D(pool_size=(3, 3), strides=2)(output)
+
+        return output
+
+    def build_TBNET_model(self):
+        width = 1
+        inputs = tf.keras.layers.Input(self.target_image_size)
+
+        output = self.conv_block(inputs, n_filters=16 * width, stride=2)
+        output = self.conv_block(output, n_filters=32 * width)
+        output = self.conv_block(output, n_filters=48 * width)
+        output = self.conv_block(output, n_filters=64 * width)
+
+        output = self.conv_block(output, n_filters=80 * width, pool=False)
+
+        # Global Average Pooling
+        output = tf.keras.layers.GlobalMaxPooling2D()(output)
+
+        # Dense
+        output = tf.keras.layers.Dense(512, activation='relu')(output)
+        output = tf.keras.layers.Dropout(0.5)(output)
+        output = tf.keras.layers.Dense(3, activation='softmax')(output)
+
+        return tf.keras.models.Model(outputs=output, inputs=inputs)
+
+    def _build_model_(self):
+        if self.net_type == 'TBNet':
+            model = self.build_TBNET_model()
+        else:
+            model = self.build_CheXNet_model_()
+
+        return model
+
+    def build_CheXNet_model_(self):
+        """
+        Network built as in Rajpurkar, et al.
+        "CheXnet: Radiologist-level pneumonia detection on chest x-rays with deep learning."
+        arXiv preprint arXiv:1711.05225 (2017).
+        :return:
+        """
+        if self.use_imagenet_weights:
+            base_weights = 'imagenet'
+        else:
+            base_weights = None
+        densenet_121 = DenseNet121(weights=base_weights, include_top=False, pooling='avg')
+        x = densenet_121.output
+        output_layer = tf.keras.layers.Dense(3, activation='softmax', name='predictions')(x)
+        return tf.keras.models.Model(inputs=densenet_121.input, outputs=output_layer)
+
+
 def test(in_dir, model_path, out_csv_file, batch_size=32):
     # network_model = load_model(model_path)
     p = dict()
@@ -825,50 +899,8 @@ def test(in_dir, model_path, out_csv_file, batch_size=32):
         results['mild'][ii:ii+batch_size] = batch_predictions[:, 1]
         results['moderate-severe'][ii:ii+batch_size] = batch_predictions[:, 2]
 
+    results['image_path'] = test_generator.filepaths
     df = pd.DataFrame.from_dict(results)
-    df.to_csv(out_csv_file)
-
-
-def test2(in_dir, model_path, out_csv_file, batch_size=32):
-
-    file_list = [join(in_dir, f)
-                 for f in listdir(in_dir) if isfile(join(in_dir, f))]
-
-    image_list = list()
-    case_list = list()
-    for ff in file_list:
-        try:
-            img = image.imread(ff)
-            img2 = equalize_core(img, output_type='uint16')
-            img2 = resize(img2, (1024, 1024),anti_aliasing=True)
-            img2 = gray2rgb(img2)
-            img2=img2.astype('float32')/65536.
-            image_list.append(img2)
-            case_list.append(ff)
-        except:
-            print("Could not read image")
-
-    X = np.concatenate(image_list, axis=0)
-    p = dict()
-    p['target_image_size'] = [1024, 1024]
-    p['use_imagenet_weights'] = False
-    p['net_type'] = 'TBNet'
-    network = SlowdownCOVID19Network(**p)
-    network.build_model(True, optimizer=tf.keras.optimizers.Adam(lr=1e-5),
-                        loss_function='categorical_crossentropy', additional_metrics=['acc'],
-                        pretrained_weights_file_path=model_path)
-    network_model = network.model
-    
-    preds = network_model.predict(X, batch_size=batch_size)
-    
-    results = dict()
-    results['case'] = case_list
-    results['normal'] = preds[:, 0]
-    results['mild'] = preds[:, 1]
-    results['moderate-severe'] = preds[:, 2]
-    
-    df = pd.DataFrame.from_dict(results)
-    
     df.to_csv(out_csv_file)
 
 
