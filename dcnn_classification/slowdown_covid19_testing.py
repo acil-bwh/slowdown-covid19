@@ -889,11 +889,10 @@ def test(in_dir, model_path, out_csv_file, batch_size=32):
     results = {'normal': np.zeros((tot_num_images,)), 'mild': np.zeros((tot_num_images,)),
                'moderate-severe': np.zeros((tot_num_images,))}
 
-    "Predicting probabilities..."
+    print("Predicting probabilities...")
     for ii in range(0, tot_num_images, batch_size):
         img_batch = test_generator.next()
         batch_predictions = network_model.predict(img_batch)
-
         results['normal'][ii:ii+batch_size] = batch_predictions[:, 0]
         results['mild'][ii:ii+batch_size] = batch_predictions[:, 1]
         results['moderate-severe'][ii:ii+batch_size] = batch_predictions[:, 2]
