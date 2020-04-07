@@ -188,7 +188,6 @@ def _list_valid_filenames_in_directory(directory, white_list_formats, split):
         absolute_path = os.path.join(root, fname)
         relative_path = os.path.relpath(absolute_path, directory)
         filenames.append(relative_path)
-        print(relative_path)
 
     return filenames
 
