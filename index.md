@@ -35,15 +35,26 @@ While point of care (PoC) molecular testing can fulfill this need in the longer 
 ### "Covictory" App
 We have devleoped  a free stand-alone client-based web tool for automatic early detection of mild pneumonia from CXR images to help prevent the epidemic.  [Beta test version](https://covictoryapp.org)
 
+
 ![Covictory App Beta test](images/covictory-mobile-gui.png){:width="400px"}
 
 
-### AI Engine and Performance
+### AI Engine
 We have used three major public X-ray databases to isolate cases with pneumonia. We have further subclassified those cases signs of mild vs. moderate/severe pneumonia to train an artificial intelligence system that can detect early pneumonia as a potential sign of COVID19 infection and health status worsening. The network that we have impletemed is inspired on an [efficient network architecture](https://www.nature.com/articles/s41598-019-42557-4?proof=trueMay%252F)
 
-Our current performace characteristics on an independent testing set
+### Performance characteristics
+
+#### Testing set (20% of data that was not used for training)
 
 ![Performance characteristics](images/slowdonwcovic19-network-performance.png){:width="600px"}
+
+
+| | AUC | Sensitivity | Specificity | Probability Threshold | 
+|-------|--------|---------|-------|--------|
+Control vs. All pneumonias | 96.2% | 90.3% | 92.1% |0.43 | 
+Control vs. Mild | 95.7% | 88.7% | 91.78% | 0.36 | 
+Mild vs. Moderate-Severed | 86.1% | 78.3% | 78.7% | 0.05 |
+
 
 ### Support or Contact
 This tool has been developed by the team of researchers at the [Applied Chest Imaging Laboratory](acil.med.harvard.edu). 
