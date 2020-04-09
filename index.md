@@ -56,7 +56,7 @@ Control vs. Mild | 95.7% | 88.7% | 91.78% | 0.36 |
 Mild vs. Moderate-Severed | 86.1% | 78.3% | 78.7% | 0.05 |
 
 
-### Support or Contact
+### Support and Contact
 This tool has been developed by the team of researchers at the [Applied Chest Imaging Laboratory](acil.med.harvard.edu). 
 
 Code and models are open-source and to enable system integration:
